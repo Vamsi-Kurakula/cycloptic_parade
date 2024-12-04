@@ -1,4 +1,3 @@
-# To know more about the Task class, visit: https://docs.crewai.com/concepts/tasks
 from crewai import Task
 from textwrap import dedent
 

@@ -1,16 +1,12 @@
 from crewai import Agent
 from textwrap import dedent
 from langchain_community.chat_models import ChatOpenAI
-from langchain_community.tools import DuckDuckGoSearchRun
-#from tools.Calculator import CalculatorTool
+
 from crewai_tools  import SerperDevTool
 
 
 search_tool = SerperDevTool()
 
-# This is an example of how to define custom agents.
-# You can define as many agents as you want.
-# You can also define custom tasks in tasks.py
 class CustomAgents:
     def __init__(self):
         self.OpenAIGPT35 = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.7)

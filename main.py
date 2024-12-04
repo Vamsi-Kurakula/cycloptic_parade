@@ -1,12 +1,8 @@
-import os
-from crewai import Agent, Task, Crew, Process
-from langchain_community.llms import openai
+from crewai import Crew
 
 from textwrap import dedent
 from agents import CustomAgents
 from tasks import CustomTasks
-
-from langchain_community.tools import DuckDuckGoSearchRun
 
 from dotenv import load_dotenv
 load_dotenv()
