@@ -1,9 +1,12 @@
 from crewai import Agent
 from textwrap import dedent
-from langchain.llms import OpenAI, Ollama
-from langchain_openai import ChatOpenAI
-from langchain.tools import DuckDuckGoSearchRun
+from langchain_community.chat_models import ChatOpenAI
+from langchain_community.tools import DuckDuckGoSearchRun
+#from tools.Calculator import CalculatorTool
+from crewai_tools  import SerperDevTool
 
+
+search_tool = SerperDevTool()
 
 # This is an example of how to define custom agents.
 # You can define as many agents as you want.
@@ -12,25 +15,44 @@ class CustomAgents:
     def __init__(self):
         self.OpenAIGPT35 = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.7)
         self.OpenAIGPT4 = ChatOpenAI(model_name="gpt-4", temperature=0.7)
-        self.Ollama = Ollama(model="openhermes")
 
-    def agent_1_name(self):
+    def expert_travel_agent(self):
         return Agent(
-            role="Define agent 1 role here",
-            backstory=dedent(f"""Define agent 1 backstory here"""),
-            goal=dedent(f"""Define agent 1 goal here"""),
-            tools=[DuckDuckGoSearchRun()],
+            role="Expert Travel Agent",
+            backstory=dedent(
+                f"""Expert in travel planning and logistics. 
+                I have decades of expereince making travel iteneraries."""),
+            goal=dedent(f"""
+                        Create a 7-day travel itinerary with detailed per-day plans,
+                        include budget, packing suggestions, and safety tips.
+                        """),
+            tools=[search_tool],
             allow_delegation=False,
             verbose=True,
             llm=self.OpenAIGPT35,
         )
 
-    def agent_2_name(self):
+    def city_selection_expert(self):
         return Agent(
-            role="Define agent 2 role here",
-            backstory=dedent(f"""Define agent 2 backstory here"""),
-            goal=dedent(f"""Define agent 2 goal here"""),
-            tools=[DuckDuckGoSearchRun()],
+            role="City Selection Expert",
+            backstory=dedent(
+                f"""Expert at analyzing travel data to pick ideal destinations"""),
+            goal=dedent(
+                f"""Select the best cities based on weather, season, prices, and traveler interests"""),
+            tools=[search_tool],
+            allow_delegation=False,
+            verbose=True,
+            llm=self.OpenAIGPT35,
+        )
+
+    def local_tour_guide(self):
+        return Agent(
+            role="Local Tour Guide",
+            backstory=dedent(f"""Knowledgeable local guide with extensive information
+        about the city, it's attractions and customs"""),
+            goal=dedent(
+                f"""Provide the BEST insights about the selected city"""),
+            tools=[search_tool],
             allow_delegation=False,
             verbose=True,
             llm=self.OpenAIGPT35,
