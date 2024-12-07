@@ -25,15 +25,23 @@ class ConvoCrew:
         character = agents.character()
 
         # Custom tasks include agent name and variables as input
-        embody_char1 = tasks.embody_char1(
-            character, 
-            self.character1, 
-            self.character2)
+        embody_char1 = tasks.embody_character(
+            character,  
+            self.character1)
 
-        embody_char2 = tasks.embody_char(
-            character, 
-            self.character1, 
+        get_char_topic_1 = tasks.get_character_topic_information(
+            character,  
+            self.character1,
+            self.conversation_topic)
+
+        embody_char2 = tasks.embody_character(
+            character,  
             self.character2)
+        
+        get_char_topic_2 = tasks.get_character_topic_information(
+            character,  
+            self.character2,
+            self.conversation_topic)
         
         moderate_convo = tasks.faciliate_converstaion(
             moderator, 
@@ -49,7 +57,9 @@ class ConvoCrew:
                     ],
             tasks=[
                 embody_char1,
+                get_char_topic_1,
                 embody_char2,
+                get_char_topic_2,
                 moderate_convo,
             ],
             verbose=True,
@@ -59,9 +69,7 @@ class ConvoCrew:
         return result
 
 
-
-# This is the main function that you will use to run your custom crew.
-if __name__ == "__main__":
+def create_convo():
     print("## Character Stories")
     print('-------------------------------')
     character1 = input(
@@ -87,3 +95,7 @@ if __name__ == "__main__":
     print("## Here is the Convo")
     print("########################\n")
     print(result)
+
+# This is the main function that you will use to run your custom crew.
+if __name__ == "__main__":
+    create_convo()
