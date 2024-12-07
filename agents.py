@@ -12,15 +12,15 @@ class CustomAgents:
         self.OpenAIGPT35 = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.7)
         self.OpenAIGPT4 = ChatOpenAI(model_name="gpt-4", temperature=0.7)
 
-    def expert_travel_agent(self):
+    def moderator(self):
         return Agent(
-            role="Expert Travel Agent",
+            role="Conversation Moderator",
             backstory=dedent(
-                f"""Expert in travel planning and logistics. 
-                I have decades of expereince making travel iteneraries."""),
+                f"""Expert moderating conversations between two indivduals."""),
             goal=dedent(f"""
-                        Create a 7-day travel itinerary with detailed per-day plans,
-                        include budget, packing suggestions, and safety tips.
+                        Facilitate a conversation between two indivudals. 
+                        Do not insert yourself into the conversation, 
+                        make sure the conversation between the two remains engaging
                         """),
             tools=[search_tool],
             allow_delegation=False,
@@ -28,28 +28,17 @@ class CustomAgents:
             llm=self.OpenAIGPT35,
         )
 
-    def city_selection_expert(self):
+    def character(self):
         return Agent(
-            role="City Selection Expert",
+            role="Character",
             backstory=dedent(
-                f"""Expert at analyzing travel data to pick ideal destinations"""),
+                f"""Expert doing research on a character and embodying their personality and manorisms"""),
             goal=dedent(
-                f"""Select the best cities based on weather, season, prices, and traveler interests"""),
+                f"""Become the selected character by searching the internet for information on them 
+                and respond to conversations and questions exactly as if you were that character"""),
             tools=[search_tool],
             allow_delegation=False,
             verbose=True,
             llm=self.OpenAIGPT35,
         )
 
-    def local_tour_guide(self):
-        return Agent(
-            role="Local Tour Guide",
-            backstory=dedent(f"""Knowledgeable local guide with extensive information
-        about the city, it's attractions and customs"""),
-            goal=dedent(
-                f"""Provide the BEST insights about the selected city"""),
-            tools=[search_tool],
-            allow_delegation=False,
-            verbose=True,
-            llm=self.OpenAIGPT35,
-        )

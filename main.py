@@ -8,12 +8,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-class TripCrew:
-    def __init__(self, origin, cities, date_range, interests):
-        self.origin = origin
-        self.cities = cities
-        self.date_range = date_range
-        self.interests = interests
+class ConvoCrew:
+    def __init__(self, character1, character2, conversation_topic, conversation_length):
+        self.character1 = character1
+        self.character2 = character2
+        self.conversation_topic = conversation_topic
+        self.conversation_length = conversation_length
 
     def run(self):
         # Define your custom agents and tasks in agents.py and tasks.py
@@ -21,43 +21,36 @@ class TripCrew:
         tasks = CustomTasks()
 
         # Define your custom agents and tasks here
-        expert_travel_agent = agents.expert_travel_agent()
-        city_selection_expert = agents.city_selection_expert()
-        local_tour_guide = agents.local_tour_guide()
+        moderator = agents.moderator()
+        character = agents.character()
 
         # Custom tasks include agent name and variables as input
-        plan_itinerary = tasks.plan_itinerary(
-            expert_travel_agent,
-            self.cities,
-            self.date_range,
-            self.interests
-        )
+        embody_char1 = tasks.embody_char1(
+            character, 
+            self.character1, 
+            self.character2)
 
-        identify_city = tasks.identify_city(
-            city_selection_expert,
-            self.origin,
-            self.cities,
-            self.interests,
-            self.date_range
-        )
-
-        gather_city_info = tasks.gather_city_info(
-            local_tour_guide,
-            self.cities,
-            self.date_range,
-            self.interests
-        )
+        embody_char2 = tasks.embody_char(
+            character, 
+            self.character1, 
+            self.character2)
+        
+        moderate_convo = tasks.faciliate_converstaion(
+            moderator, 
+            self.character1, 
+            self.character2, 
+            self.conversation_topic, 
+            self.conversation_length)
 
         # Define your custom crew here
         crew = Crew(
-            agents=[expert_travel_agent,
-                    city_selection_expert,
-                    local_tour_guide
+            agents=[moderator, 
+                    character
                     ],
             tasks=[
-                plan_itinerary,
-                identify_city,
-                gather_city_info
+                embody_char1,
+                embody_char2,
+                moderate_convo,
             ],
             verbose=True,
         )
@@ -69,28 +62,28 @@ class TripCrew:
 
 # This is the main function that you will use to run your custom crew.
 if __name__ == "__main__":
-    print("## Welcome to Trip Planner Crew")
+    print("## Character Stories")
     print('-------------------------------')
-    origin = input(
+    character1 = input(
         dedent("""
-      From where will you be traveling from?
+      Who is character 1?
     """))
-    cities = input(
+    character2 = input(
         dedent("""
-      What are the cities options you are interested in visiting?
+     Who is character 2?
     """))
-    date_range = input(
+    Topic = input(
         dedent("""
-      What is the date range you are interested in traveling?
+      What are they talking about?
     """))
-    interests = input(
+    length = input(
         dedent("""
-      What are some of your high level interests and hobbies?
+      How long is this convo?
     """))
 
-    trip_crew = TripCrew(origin, cities, date_range, interests)
+    trip_crew = ConvoCrew(character1, character2, Topic, length)
     result = trip_crew.run()
     print("\n\n########################")
-    print("## Here is you Trip Plan")
+    print("## Here is the Convo")
     print("########################\n")
     print(result)

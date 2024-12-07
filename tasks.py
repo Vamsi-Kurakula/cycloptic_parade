@@ -6,70 +6,67 @@ class CustomTasks:
     def __tip_section(self):
         return "If you do your BEST WORK, I'll give you a $10,000 commission!"
 
-    def plan_itinerary(self, agent, city, travel_dates, interests):
+    def faciliate_converstaion(self, agent, character1, character2, conversation_topic, conversation_length):
         return Task(
             description=dedent(
                 f"""
-            **Task**: Develop a 7-Day Travel Itinerary
-            **Description**: Expand the city guide into a full 7-day travel itinerary with detailed 
-                per-day plans, including weather forecasts, places to eat, packing suggestions, 
-                and a budget breakdown. 
+            **Task**: Facilitate a conversation between two characters
+            **Description**: Facilitate a conversation between two characters. 
+            You should not insert yourself into the converstaion, 
+            but you should find ways to keep the converstaion going naturally 
+            between the two characters  
 
             **Parameters**: 
-            - City: {city}
-            - Trip Date: {travel_dates}
-            - Traveler Interests: {interests}
+            - Character 1: {character1}
+            - Character 2: {character2}
+            - Conversation Topic: {conversation_topic}
+            - Conversation Length: {conversation_length}
 
             **Note**: {self.__tip_section()}
         """
             ),
-            expected_output=dedent("""You MUST suggest actual places to visit, actual hotels to stay, 
-                and actual restaurants to go to. This itinerary should cover all aspects of the trip, 
-                from arrival to departure, integrating the city guide information with practical travel logistics."""),
+            expected_output=dedent("""You must create a conversation between these two characters. 
+                                   Utilize the information other agents have gathered to act as those other characters 
+                                   and create a script like output between the two characters."""),
             agent=agent,
         )
 
-    def identify_city(self, agent, origin, cities, interests, travel_dates):
+    def embody_char1(self, agent, character1, character2, conversation_topic):
         return Task(
             description=dedent(
                 f"""
-                    **Task**:  Identify the Best City for the Trip
-                    **Description**: Analyze and select the best city for the trip based on specific 
-                        criteria such as weather patterns, seasonal events, and travel costs. 
-                        This task involves comparing multiple cities, considering factors like current weather 
-                        conditions, upcoming cultural or seasonal events, and overall travel expenses. 
-
+                    **Task**:  Provide a personality profile of character 1
+                    **Description**: Provide a personsaility profile for Character 1 such that another agent can take the profile and mimick that character. 
+                                    provide personality traits, quirks, and traits from that character such that it is easy for another agent to mimick that character.
+                                    Also do some research on the conversation topic with regards to the character, so that the conversation facilitor also has that knowledge available
                     **Parameters**: 
-                    - Origin: {origin}
-                    - Cities: {cities}
-                    - Interests: {interests}
-                    - Travel Date: {travel_dates}
+                    - Character 1: {character1}
+                    - Character 2: {character2}
+                    - Conversation Topic: {conversation_topic}
 
                     **Note**: {self.__tip_section()}
         """
             ),
-            expected_output=dedent("""Your final answer must be a detailed report on the chosen city, 
-                        including actual flight costs, weather forecast, and attractions."""),
+            expected_output=dedent("""You should provide a personality profile for character 1"""),
             agent=agent,
         )
 
-    def gather_city_info(self, agent, city, travel_dates, interests):
+    def embody_char2(self, agent, character1, character2, conversation_topic):
         return Task(
             description=dedent(
                 f"""
-                    **Task**:  Gather In-depth City Guide Information
-                    **Description**: Compile an in-depth guide for the selected city, gathering information about 
-                        key attractions, local customs, special events, and daily activity recommendations. 
-
+                    **Task**:  Provide a personality profile of character 2
+                    **Description**: Provide a personsaility profile for Character 2 such that another agent can take the profile and mimick that character. 
+                                    provide personality traits, quirks, and traits from that character such that it is easy for another agent to mimick that character.
+                                    Also do some research on the conversation topic with regards to the character, so that the conversation facilitor also has that knowledge available
                     **Parameters**: 
-                    - Cities: {city}
-                    - Interests: {interests}
-                    - Travel Date: {travel_dates}
+                    - Character 1: {character1}
+                    - Character 2: {character2}
+                    - Conversation Topic: {conversation_topic}
 
                     **Note**: {self.__tip_section()}
         """
             ),
-            expected_output=dedent("""This guide should provide a thorough overview of what the city has to offer, including 
-                        hidden gems, cultural hotspots, must-visit landmarks, weather forecasts, and high-level costs."""),
+            expected_output=dedent("""You should provide a personality profile for character 2"""),
             agent=agent,
         )
