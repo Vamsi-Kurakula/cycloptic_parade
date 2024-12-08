@@ -6,7 +6,7 @@ class CustomTasks:
     def __tip_section(self):
         return "If you do your BEST WORK, I'll give you a $10,000 commission!"
 
-    def faciliate_converstaion(self, agent, character1, character2, conversation_topic, conversation_length):
+    def faciliate_converstaion(self, agent, character1, character2, conversation_topic):
         return Task(
             description=dedent(
                 f"""
@@ -20,7 +20,6 @@ class CustomTasks:
             - Character 1: {character1}
             - Character 2: {character2}
             - Conversation Topic: {conversation_topic}
-            - Conversation Length: {conversation_length}
 
             **Note**: {self.__tip_section()}
         """
